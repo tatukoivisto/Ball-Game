@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hgame</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
+        <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+
+
+        <script>
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyAxcbA_3s4Rp8RZ56dM9ScSnZs5FCeZ40c",
+          authDomain: "ganimation-16370.firebaseapp.com",
+          databaseURL: "https://ganimation-16370.firebaseio.com",
+          projectId: "ganimation-16370",
+          storageBucket: "ganimation-16370.appspot.com",
+          messagingSenderId: "663651479968"
+        };
+        firebase.initializeApp(config);
+
+        // FirebaseUI config.
+        var uiConfig = {
+          signInSuccessUrl: 'signed.html',
+          signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+          ],
+          // Terms of service url.
+          tosUrl: '<your-tos-url>'
+        };
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+
+            var displayName;
+            var email;
+            var emailVerified;
+            var photoURL;
+            var uid;
+            var providerData;
+
+             initApp = function() {
+               firebase.auth().onAuthStateChanged(function(user) {
+                 if (user) {
+                   // User is signed in.
+                   displayName = user.displayName;
+                   email = user.email;
+                   emailVerified = user.emailVerified;
+                   photoURL = user.photoURL;
+                   uid = user.uid;
+                   providerData = user.providerData;
+                   user.getToken().then(function(accessToken) {
+                     document.getElementById('sign-in-status').textContent = 'Signed in';
+                     document.getElementById('sign-in').textContent = 'Sign out';
+                     document.getElementById('account-details').textContent = JSON.stringify({
+                       displayName: displayName,
+                       email: email,
+                       //emailVerified: emailVerified,
+                       //photoURL: photoURL,
+                       uid: uid,
+                       //accessToken: accessToken,
+                       //providerData: providerData
+                     }, null, '  ');
+                   });
+                 } else {
+                   // User is signed out.
+                   document.getElementById('sign-in-status').textContent = 'Signed out';
+                   document.getElementById('sign-in').textContent = 'Sign in';
+                   document.getElementById('account-details').textContent = 'null';
+                 }
+               }, function(error) {
+                 console.log(error);
+               });
+             };
+
+             window.addEventListener('load', function() {
+               initApp();
+             });
+
+        </script>
+
+
+    </head>
+    <body>
+
+      <div id="nav">
+        <button type="button" id="testButton" class="testItem">test</button>
+        <button type="button" id="signOutButton" class="testItem">sign out</button>
+
+        <div id="photo-container">
+                <img id="photo"></img>
+        </div>
+      </div>
+
+
+   <div id="sign-in-status"></div>
+   <div id="sign-in"></div>
+   <div id="account-details"></div>
+
+    <div class="buttonHolder">
+      <button type="button" id="startButton">START</button>
+    </div>
+
+
+
+
+
+
+
+
+<script src="js/training.js"></script>
+<script src="js/game.js"></script>
+<script src="js/fb-login.js"></script>
+</body>
+</html>
