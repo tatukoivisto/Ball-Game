@@ -264,7 +264,7 @@ function playAgain(){
       enemyCreate(400, 1, 0.2);
       emitterCreate();
     }else if(Math.round(killAmount*10) == 40){
-      enemyCreate(400, 3, 0.3);
+      enemyCreate(400, 2, 0.3);
       emitterCreate();
     }else if(Math.round(killAmount*10) == 50){
       enemyCreate(500 , 1, 0.2);
